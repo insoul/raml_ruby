@@ -6,10 +6,10 @@ require 'raml/version'
 Gem::Specification.new do |spec|
   spec.name          = "raml-ruby"
   spec.version       = Raml::VERSION
-  spec.authors       = ["kgorin"]
-  spec.email         = ["me@kgor.in"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.authors       = ["kgorin", 'insoul']
+  spec.email         = ["me@kgor.in", 'ensoul@empal.com']
+  spec.description   = %q{Raml Ruby Parser}
+  spec.summary       = %q{Raml Ruby Parser}
   spec.homepage      = ""
   spec.license       = "MIT"
 
