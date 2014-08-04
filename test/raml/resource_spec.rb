@@ -119,6 +119,14 @@ describe Raml::Resource do
         expect( subject.resources ).to all( be_a Raml::Resource )
         expect( subject.resources.map(&:name) ).to contain_exactly('/followers','/following', '/keys')
       end
+      it 'retrieve resource by name' do
+        expect( subject.resource('not_exists') ).to be_nil
+        expect( subject.resource('followers') ).to be_a(Raml::Resource)
+        expect( subject.resource('/followers') ).to be_a(Raml::Resource)
+        expect( subject.resource('followers').resource('not_exists') ).to be_nil
+        expect( subject.resource('keys').resource('{keyId}') ).to be_a(Raml::Resource)
+        expect( subject.resource('keys').resource('/{keyId}') ).to be_a(Raml::Resource)
+      end
     end
     
     context 'when a baseUriParameters property is given' do

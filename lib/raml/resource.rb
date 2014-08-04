@@ -45,8 +45,16 @@ module Raml
       children.select { |child| child.is_a? Resource }
     end
 
+    def resource(name = nil)
+      resources.find { |child| child.name == name.to_s or child.name == "/#{name}" }
+    end
+
     def methods
       children.select { |child| child.is_a? Method }
+    end
+
+    def method(method = nil)
+      methods.find { |child| child.name == method.to_s.downcase }
     end
 
     def uri_parameters

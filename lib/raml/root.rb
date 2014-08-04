@@ -65,6 +65,10 @@ module Raml
     def resources
       @children.select { |child| child.is_a? Resource }
     end
+
+    def resource(name = nil)
+      resources.find { |child| child.name == name.to_s or child.name == "/#{name}" }
+    end
     
     private
 
