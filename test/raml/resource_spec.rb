@@ -141,6 +141,13 @@ describe Raml::Resource do
         expect( subject.resource('keys').resource('{keyId}').method(:get).parents[0].name ).to eq('/{keyId}')
         expect( subject.resource('keys').resource('{keyId}').method(:get).parents[1].name ).to eq('/keys')
       end
+      it 'get all parameters' do
+        expect( subject.resource('keys').resource('{keyId}').parameters.length ).to eq(2)
+        expect( subject.resource('keys').resource('{keyId}').method(:get).parameters.length ).to eq(3)
+        expect( subject.resource('keys').resource('{keyId}').method(:get).parameters[0].name ).to eq('name')
+        expect( subject.resource('keys').resource('{keyId}').method(:get).parameters[1].name ).to eq('keyId')
+        expect( subject.resource('keys').resource('{keyId}').method(:get).parameters[2].name ).to eq('userId')
+      end
     end
     
     context 'when a baseUriParameters property is given' do

@@ -66,6 +66,12 @@ module Raml
       children.select { |child| child.is_a? Parameter::BaseUriParameter }
     end
 
+    def parameters
+      params = uri_parameters + base_uri_parameters
+      params += parent.parameters if parent and parent.respond_to?(:parameters)
+      params
+    end
+
     def parents
       return [] unless parent
       return [parent] unless parent.respond_to?(:parents)

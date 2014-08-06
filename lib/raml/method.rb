@@ -108,6 +108,12 @@ module Raml
       [parent] + parent.parents
     end
 
+    def parameters
+      params = query_parameters
+      params += parent.parameters if parent and parent.respond_to?(:parameters)
+      params
+    end
+
     private
     
     def validate

@@ -61,7 +61,8 @@ module Raml
     def base_uri_parameters
       @children.select { |child| child.is_a? Parameter::BaseUriParameter }
     end
-    
+    alias :parameters :base_uri_parameters
+
     def resources
       @children.select { |child| child.is_a? Resource }
     end
