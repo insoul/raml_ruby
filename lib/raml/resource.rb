@@ -1,20 +1,21 @@
 module Raml
   class Resource
-    attr_accessor :children
+    attr_accessor :parent, :children
 
     extend Common
 
     is_documentable
 
-    def initialize(name, resource_data)
+    def initialize(name, resource_data, parent = nil)
+      @parent = parent
       @children = []
       @name = name
 
       resource_data.each do |key, value|
         if key.start_with?('/')
-          @children << Resource.new(key, value)
+          @children << Resource.new(key, value, self)
         elsif Raml::Method::NAMES.include?(key)
-          @children << Method.new(key, value)
+          @children << Method.new(key, value, self)
         elsif key == "uriParameters"
           validate_uri_parameters value
           value.each do |name, uri_parameter_data|
@@ -63,6 +64,12 @@ module Raml
     
     def base_uri_parameters
       children.select { |child| child.is_a? Parameter::BaseUriParameter }
+    end
+
+    def parents
+      return [] unless parent
+      return [parent] unless parent.respond_to?(:parents)
+      [parent] + parent.parents
     end
     
     private

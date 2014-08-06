@@ -111,6 +111,10 @@ describe Raml::Resource do
                 uriParameters:
                   keyId:
                     type: integer
+                get:
+                  queryParameters:
+                    name:
+                      type: string
           )
         )
       }
@@ -126,6 +130,16 @@ describe Raml::Resource do
         expect( subject.resource('followers').resource('not_exists') ).to be_nil
         expect( subject.resource('keys').resource('{keyId}') ).to be_a(Raml::Resource)
         expect( subject.resource('keys').resource('/{keyId}') ).to be_a(Raml::Resource)
+        expect( subject.resource('keys').resource('/{keyId}').method(:get) ).to be_a(Raml::Method)
+      end
+      it 'get all parents' do
+        expect( subject.parent ).to be_nil
+        expect( subject.resource('keys').resource('{keyId}').parent.name ).to eq('/keys')
+        expect( subject.parents ).to eq([])
+        expect( subject.resource('keys').resource('{keyId}').parents.length ).to eq(2)
+        expect( subject.resource('keys').resource('{keyId}').method(:get).parents.length ).to eq(3)
+        expect( subject.resource('keys').resource('{keyId}').method(:get).parents[0].name ).to eq('/{keyId}')
+        expect( subject.resource('keys').resource('{keyId}').method(:get).parents[1].name ).to eq('/keys')
       end
     end
     

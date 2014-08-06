@@ -12,7 +12,7 @@ module Raml
 
       root_data.each do |key, value|
         if key.start_with?('/')
-          @children << Resource.new(key, value)
+          @children << Resource.new(key, value, self)
         elsif key == "baseUriParameters"
           validate_base_uri_parameters value
           value.each do |name, uri_parameter_data|

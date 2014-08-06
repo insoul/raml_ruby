@@ -6,9 +6,10 @@ module Raml
 
     is_documentable
 
-    attr_accessor :children, :protocols
+    attr_accessor :parent, :children, :protocols
 
-    def initialize(name, method_data)
+    def initialize(name, method_data, parent = nil)
+      @parent = parent
       @children = []
       @name = name
             
@@ -99,6 +100,12 @@ module Raml
 
     def responses
       children.select { |child| child.is_a? Response }
+    end
+
+    def parents
+      return [] unless parent
+      return [parent] unless parent.respond_to?(:parents)
+      [parent] + parent.parents
     end
 
     private
